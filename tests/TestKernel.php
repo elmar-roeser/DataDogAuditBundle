@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace DataDog\AuditBundle\Tests;
 
 use DataDog\AuditBundle\DataDogAuditBundle;
-use DataDog\AuditBundle\DBAL\Middleware\AuditFlushMiddleware;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
