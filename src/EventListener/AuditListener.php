@@ -153,17 +153,22 @@ class AuditListener
             if (!$mapping['isOwningSide'] || $mapping['type'] !== ClassMetadata::MANY_TO_MANY) {
                 continue; // ignore inverse side or one to many relations
             }
+            // For backward compatibility:
+            // If $mapping is not already an array, convert it to an array.
+            if (!is_array($mapping)) {
+                $mapping = $mapping->toArray();
+            }
             foreach ($collection->getInsertDiff() as $entity) {
                 if ($this->isEntityUnaudited($entity)) {
                     continue;
                 }
-                $this->associated[] = [$collection->getOwner(), $entity, $mapping->toArray()];
+                $this->associated[] = [$collection->getOwner(), $entity, $mapping];
             }
             foreach ($collection->getDeleteDiff() as $entity) {
                 if ($this->isEntityUnaudited($entity)) {
                     continue;
                 }
-                $this->dissociated[] = [$collection->getOwner(), $entity, $this->id($em, $entity), $mapping->toArray()];
+                $this->dissociated[] = [$collection->getOwner(), $entity, $this->id($em, $entity), $mapping];
             }
         }
         foreach ($uow->getScheduledCollectionDeletions() as $collection) {
@@ -178,7 +183,7 @@ class AuditListener
                 if ($this->isEntityUnaudited($entity)) {
                     continue;
                 }
-                $this->dissociated[] = [$collection->getOwner(), $entity, $this->id($em, $entity), $mapping->toArray()];
+                $this->dissociated[] = [$collection->getOwner(), $entity, $this->id($em, $entity), $mapping];
             }
         }
     }

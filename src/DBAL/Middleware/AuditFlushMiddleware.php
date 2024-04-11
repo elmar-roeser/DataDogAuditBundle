@@ -14,7 +14,6 @@ class AuditFlushMiddleware implements Middleware
      */
     public ?array $flushHandler = null;
 
-
     public function wrap(Driver $driver): Driver
     {
         return new DriverMiddleware($driver, $this);
